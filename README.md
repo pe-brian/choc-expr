@@ -1,2 +1,37 @@
+[![PyPI version](https://badge.fury.io/py/choc-expr.svg)](https://badge.fury.io/py/choc-expr) ![Licence badge](https://img.shields.io/pypi/l/choc-expr) ![Python version](https://img.shields.io/pypi/pyversions/choc-expr)
+[![Actions Status](https://github.com/pe-brian/choc-expr/workflows/validate-dev-push/badge.svg)](https://github.com/pe-brian/choc-expr/actions)
+![Dependencies](https://img.shields.io/badge/dependencies-typeguard-yellowgreen)
+![Downloads per month](https://img.shields.io/pypi/dm/choc-expr)
+![Last commit](https://img.shields.io/github/last-commit/pe-brian/choc-expr)
+
 # choc-expr
+
 A Python templating library
+
+# Why ChocExpr ?
+
+ChocExpr is used by Chocolatine to help to generate SQL queries, but you are free to use it for your own projects.
+
+# Installation
+
+```pip install chocexpr```
+
+# Functionnalities
+
+- If-Then-Else statements (If test only with boolean actually)
+- Line break
+- Compact/Extended mode
+- Attributes evaluation :
+    - Loop : unpack iterable and join it by a character separator
+    - Attribute chain : follow the chain and return the nested value
+
+# TODO
+
+- Nested Conditions
+- If condition resolution with an equality
+
+# Examples
+
+```python
+from choc_expr import Expr as ChocExpr
+```
