@@ -3,7 +3,7 @@ from typing import Any
 
 from typeguard import typechecked
 
-from .utils import to_bool
+from .utils import inline_obj, to_bool
 from .attr import Attr
 
 
@@ -13,9 +13,13 @@ class Expr:
     def __init__(
         self,
         choc_expr: str | None = None,
+        ref: Any = None,
         list_join_sep: str = ", ",
         compact: bool = True
     ) -> None:
+        if isinstance(ref, dict):
+            ref = inline_obj(**ref)
+        self._ref = ref or self
         self._expr = choc_expr or ""
         self.list_join_sep = list_join_sep
         self.compact = compact
@@ -48,9 +52,9 @@ class Expr:
 
     @staticmethod
     def eval_conditions(obj: Any, expr: str) -> str:
-        regex = r"(@{([A-Za-z_.$()]+)}:([{}A-Za-z_.$()\s*~]*):([{}A-Za-z_.$()\s*~]*);)"
+        regex = r"(@{([A-Za-z_.$()=]+)}:([{}A-Za-z_.$()\s*~]*):([{}A-Za-z_.$()\s*~]*);)"
         matches = re.findall(regex, expr)
-        to_replace = {cond: cond_attr_if_true if to_bool(Attr(obj, cond_attr).build()) else cond_attr_if_false for cond, cond_attr, cond_attr_if_true, cond_attr_if_false in matches}
+        to_replace = {cond: cond_attr_if_true if to_bool(Attr(obj=obj, expr=cond_attr).build()) else cond_attr_if_false for cond, cond_attr, cond_attr_if_true, cond_attr_if_false in matches}
         for cond, replacement in to_replace.items():
             expr = expr.replace(cond, replacement)
         return expr
@@ -61,14 +65,18 @@ class Expr:
         regex = r"{([A-Za-z_.$()~]+)}"
         to_replace = [key for key in re.findall(regex, expr)]
         for key in to_replace:
-            expr = expr.replace(f"{{{key}}}", Attr(obj=self, expr=key, list_join_sep=self.list_join_sep).build())
+            expr = expr.replace(f"{{{key}}}", Attr(obj=self._ref, expr=key, list_join_sep=self.list_join_sep).build())
         return expr
 
     def build(self) -> str:
-        expr = self.eval_attributes(Expr.eval_conditions(self, self._expr))
+        expr = self.eval_attributes(Expr.eval_conditions(self._ref, self._expr))
         expr = expr.replace("~", "\n")
         expr = expr.replace("\n\n", "\n")
         if self.compact:
             expr = expr.replace("\n", " ")
             expr = expr.strip()
         return expr
+
+
+def build(*args, **kwargs):
+    return Expr(*args, **kwargs).build()

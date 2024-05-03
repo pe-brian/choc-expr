@@ -1,7 +1,7 @@
 from choc_expr import Attr
 
 
-def test_choc_expr_attr():
+def test_attr_attr():
 
     class C:
         def __init__(self) -> None:
@@ -36,7 +36,7 @@ def test_choc_expr_attr():
     assert Attr(main_box, "$(box.items).b.c.val~").build() == "42, 42, 42\n"
 
 
-def test_choc_expr_attr_endline():
+def test_attr_attr_endline():
 
     class Container:
         def __init__(self) -> None:
@@ -47,7 +47,7 @@ def test_choc_expr_attr_endline():
     assert Attr(box, "val~").build() == "1\n"
 
 
-def test_choc_expr_attr_empty_endline():
+def test_attr_attr_empty_endline():
 
     class Container:
         def __init__(self) -> None:

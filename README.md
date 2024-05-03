@@ -34,4 +34,26 @@ ChocExpr is used by Chocolatine to help to generate SQL queries, but you are fre
 
 ```python
 from choc_expr import Expr as ChocExpr
+
+condition = True  # or False
+value_if_true = 1
+value_if_false = 2
+names = ("Kevin", "Sophia")
+print(ChocExpr("@{condition}:{value_if_true} child is:{value_if_false} children (named $({names})) are;~playing football outside", vars()))
 ```
+
+**output :**
+
+```
+>> 2 children (Kevin, Sophia) are
+>> playing football outside
+```
+
+*or*
+
+```
+>> 1 child is
+>> playing football outside
+```
+
+*depending if condition is True or False*.

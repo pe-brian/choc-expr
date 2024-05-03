@@ -34,7 +34,7 @@ class Attr:
 
     def _get_nested_value(self, obj: Any, keys: List[str]) -> Any:
         for key in keys:
-            obj = getattr(obj, key)
+            obj = obj[key] if isinstance(obj, dict) else getattr(obj, key)
         return obj
 
     def _get_nested_value_from_expr(self, obj: Any, expr: str) -> Any:
