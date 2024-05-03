@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/choc-expr.svg)](https://badge.fury.io/py/choc-expr) ![Licence badge](https://img.shields.io/pypi/l/choc-expr) ![Python](https://img.shields.io/badge/python-3.12.2-blue.svg)
 [![Actions Status](https://github.com/pe-brian/choc-expr/workflows/tests/badge.svg)](https://github.com/pe-brian/choc-expr/actions)
-![Dependencies](https://img.shields.io/badge/dependencies-typeguard_choc--expr-cyan)
+![Dependencies](https://img.shields.io/badge/dependencies-typeguard-cyan)
 ![Downloads per month](https://img.shields.io/pypi/dm/choc-expr)
 ![Last commit](https://img.shields.io/github/last-commit/pe-brian/choc-expr)
 
