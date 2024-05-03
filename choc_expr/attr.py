@@ -9,8 +9,8 @@ class Attr:
 
     def __init__(
             self,
-            obj: Any,
             expr: str,
+            obj: Any,
             list_join_sep: str = ", "
     ) -> None:
         self._expr = expr
@@ -68,3 +68,7 @@ class Attr:
         if self._endline and expr != "":
             expr += "\n"
         return expr
+
+
+def build_attr(*args, **kwargs):
+    return Attr(*args, **kwargs).build()

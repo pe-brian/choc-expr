@@ -54,7 +54,7 @@ class Expr:
     def eval_conditions(obj: Any, expr: str) -> str:
         regex = r"(@{([A-Za-z_.$()=]+)}:([{}A-Za-z_.$()\s*~]*):([{}A-Za-z_.$()\s*~]*);)"
         matches = re.findall(regex, expr)
-        to_replace = {cond: cond_attr_if_true if to_bool(Attr(obj=obj, expr=cond_attr).build()) else cond_attr_if_false for cond, cond_attr, cond_attr_if_true, cond_attr_if_false in matches}
+        to_replace = {cond: cond_attr_if_true if to_bool(Attr(expr=cond_attr, obj=obj, ).build()) else cond_attr_if_false for cond, cond_attr, cond_attr_if_true, cond_attr_if_false in matches}
         for cond, replacement in to_replace.items():
             expr = expr.replace(cond, replacement)
         return expr
@@ -65,7 +65,7 @@ class Expr:
         regex = r"{([A-Za-z_.$()~]+)}"
         to_replace = [key for key in re.findall(regex, expr)]
         for key in to_replace:
-            expr = expr.replace(f"{{{key}}}", Attr(obj=self._ref, expr=key, list_join_sep=self.list_join_sep).build())
+            expr = expr.replace(f"{{{key}}}", Attr(expr=key, obj=self._ref, list_join_sep=self.list_join_sep).build())
         return expr
 
     def build(self) -> str:
@@ -78,5 +78,5 @@ class Expr:
         return expr
 
 
-def build(*args, **kwargs):
+def build_expr(*args, **kwargs):
     return Expr(*args, **kwargs).build()

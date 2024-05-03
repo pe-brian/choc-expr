@@ -1,6 +1,6 @@
 import pytest
 
-from choc_expr import build, inline_obj as _
+from choc_expr import build_expr as build, inline_obj as _
 
 
 def test_expr_build_without_init_params_must_return_empty_string():

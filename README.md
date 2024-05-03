@@ -29,6 +29,7 @@ ChocExpr is used by Chocolatine to help to generate SQL queries, but you are fre
 
 - Nested Conditions
 - If condition resolution with an equality
+- Optional parenthesis in loop statement
 
 # Examples
 
