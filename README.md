@@ -37,8 +37,6 @@ ChocExpr is used by Chocolatine to help to generate SQL queries, but you are fre
 from choc_expr import Expr as ChocExpr
 
 age = 24  # or 15
-value_if_true = 'adult'
-value_if_false = 'child'
 print(ChocExpr("Kevin is @{age}>=18:an adult:a child; of {age} years old", vars()))
 ```
 
