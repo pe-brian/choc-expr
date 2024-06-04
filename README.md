@@ -14,7 +14,7 @@ ChocExpr is used by Chocolatine to help to generate SQL queries, but you are fre
 
 # Installation
 
-```pip install chocexpr```
+```pip install choc-expr```
 
 # Functionnalities
 
