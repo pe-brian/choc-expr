@@ -18,7 +18,7 @@ ChocExpr is used by Chocolatine to help to generate SQL queries, but you are fre
 
 # Functionnalities
 
-- If-Then-Else statements (If test only with boolean actually)
+- If-Then-Else statements
 - Line break
 - Compact/Extended mode
 - Attributes evaluation :
@@ -29,7 +29,6 @@ ChocExpr is used by Chocolatine to help to generate SQL queries, but you are fre
 
 - Nested Conditions
 - Methods (upper, lower, title, etc...)
-- If condition resolution with an equality
 - Optional parenthesis in loop statement
 
 # Examples
@@ -37,25 +36,22 @@ ChocExpr is used by Chocolatine to help to generate SQL queries, but you are fre
 ```python
 from choc_expr import Expr as ChocExpr
 
-condition = True  # or False
-value_if_true = 1
-value_if_false = 2
-names = ("Kevin", "Sophia")
-print(ChocExpr("@{condition}:{value_if_true} child is:{value_if_false} children (named $({names})) are;~playing football outside", vars()))
+age = 24  # or 15
+value_if_true = 'adult'
+value_if_false = 'child'
+print(ChocExpr("Kevin is @{age}>=18:an adult:a child; of {age} years old", vars()))
 ```
 
 **output :**
 
 ```
->> 2 children (Kevin, Sophia) are
->> playing football outside
+>> Kevin is an adult of 24 years old
 ```
 
 *or*
 
 ```
->> 1 child is
->> playing football outside
+>> Kevin is a child of 15 years old
 ```
 
 *depending if condition is True or False*.
