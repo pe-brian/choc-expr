@@ -107,3 +107,8 @@ def test_expr_eval_condition():
    assert Expr.eval_condition(None, "25>25", "1", "2") == "2"
    assert Expr.eval_condition(None, "True", "1", "2") == "1"
    assert Expr.eval_condition(None, "False", "1", "2") == "2"
+
+
+def test_expr_build_then_or_else_empty():
+    assert build("@False::2;", {}) == "2"
+    assert build("@True:1:;", {}) == "1"
