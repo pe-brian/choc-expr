@@ -51,15 +51,49 @@ class Expr:
         self._compact = value
 
     @staticmethod
+    def resolve_condition(left_operand: Any, operator: str, right_operand: Any) -> bool:
+        """"""
+        match operator:
+            case "==":
+                return left_operand == right_operand
+            case "!=":
+                return left_operand != right_operand
+            case ">=":
+                return left_operand >= right_operand
+            case "<=":
+                return left_operand <= right_operand
+            case ">":
+                return left_operand > right_operand
+            case "<":
+                return left_operand < right_operand
+            case '':
+                return to_bool(left_operand)
+
+
+    @staticmethod
+    def eval_condition(obj: Any, cond_expr: str, then_expr: str, else_expr: str) -> str:
+        """"""
+        # interpolate value of condition expression
+        for match in re.findall(r"{[.\w]+}", cond_expr):
+            cond_expr = cond_expr.replace(match, Attr(expr=match[1:-1], obj=obj).build())
+        # resolve condition
+        matches = re.findall(r"([A-Za-z0-9._]+|True|False)(?:(==|>=|<=|>|<|!=)([A-Za-z0-9._]+|True|False))?", cond_expr)
+        if len(matches) == 1:
+            return then_expr if Expr.resolve_condition(*matches[0]) else else_expr
+        raise ValueError("Cannot resolve condition")
+    
+
+
+    @staticmethod
     def eval_conditions(obj: Any, expr: str) -> str:
-        regex = r"(@{([A-Za-z_.$()=]+)}:([{}A-Za-z_.$()\s*~]*):([{}A-Za-z_.$()\s*~]*);)"
-        matches = re.findall(regex, expr)
-        to_replace = {cond: cond_attr_if_true if to_bool(Attr(expr=cond_attr, obj=obj, ).build()) else cond_attr_if_false for cond, cond_attr, cond_attr_if_true, cond_attr_if_false in matches}
-        for cond, replacement in to_replace.items():
-            expr = expr.replace(cond, replacement)
+        """"""
+        matches = re.findall(r"(@([^:;\s]+):([^:;\s]+):([^:;\s]+));", expr)
+        for match, cond_expr, then_expr, else_expr in matches:
+            expr = expr.replace(match, Expr.eval_condition(obj, cond_expr, then_expr, else_expr))[:-1]
         return expr
 
     def eval_attributes(self, expr: str) -> str:
+        """"""
         if not self.buildable:
             return ""
         regex = r"{([A-Za-z_.$()~]+)}"
@@ -69,6 +103,7 @@ class Expr:
         return expr
 
     def build(self) -> str:
+        """"""
         expr = self.eval_attributes(Expr.eval_conditions(self._ref, self._expr))
         expr = expr.replace("~", "\n")
         expr = expr.replace("\n\n", "\n")
@@ -79,4 +114,5 @@ class Expr:
 
 
 def build_expr(*args, **kwargs):
+    """"""
     return Expr(*args, **kwargs).build()

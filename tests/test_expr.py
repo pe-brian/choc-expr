@@ -1,6 +1,6 @@
 import pytest
 
-from choc_expr import build_expr as build, inline_obj as _
+from choc_expr import build_expr as build, inline_obj as _, Expr
 
 
 def test_expr_build_without_init_params_must_return_empty_string():
@@ -86,3 +86,20 @@ def test_expr_leading_and_ending_separator_must_be_removed():
 def test_expr_build_buildable_expr_with_separator_must_keep_seperator():
     assert build("{buildable_expr~}1", {"buildable_expr": 1}) == "1 1"
     assert build("{buildable_expr~}1", {"buildable_expr": 1}, compact=False) == "1\n1"
+
+
+def test_expr_eval_condition_interpolation():
+   assert Expr.eval_condition(_(var=True), "{var}", "1", "2") == "1"
+   assert Expr.eval_condition(_(var=False), "{var}", "1", "2") == "2"
+   assert Expr.eval_condition(_(var=25), "{var}==25", "1", "2") == "1"
+
+
+def test_expr_eval_condition():
+   assert Expr.eval_condition(None, "25==25", "1", "2") == "1"
+   assert Expr.eval_condition(None, "25!=25", "1", "2") == "2"
+   assert Expr.eval_condition(None, "25>=25", "1", "2") == "1"
+   assert Expr.eval_condition(None, "25<=25", "1", "2") == "1"
+   assert Expr.eval_condition(None, "25<25", "1", "2") == "2"
+   assert Expr.eval_condition(None, "25>25", "1", "2") == "2"
+   assert Expr.eval_condition(None, "True", "1", "2") == "1"
+   assert Expr.eval_condition(None, "False", "1", "2") == "2"
