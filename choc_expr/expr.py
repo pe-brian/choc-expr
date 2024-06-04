@@ -87,9 +87,9 @@ class Expr:
     @staticmethod
     def eval_conditions(obj: Any, expr: str) -> str:
         """"""
-        matches = re.findall(r"(@([^:;\s]+):([^:;\s]+):([^:;\s]+));", expr)
+        matches = re.findall(r"(@([^:;\s]+):([^:;]+):([^:;]+);)", expr)
         for match, cond_expr, then_expr, else_expr in matches:
-            expr = expr.replace(match, Expr.eval_condition(obj, cond_expr, then_expr, else_expr))[:-1]
+            expr = expr.replace(match, Expr.eval_condition(obj, cond_expr, then_expr, else_expr))
         return expr
 
     def eval_attributes(self, expr: str) -> str:

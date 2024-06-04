@@ -39,6 +39,10 @@ def test_expr_build_loop_must_return_joined_iterable_values_and_apply_attribute(
     assert build("{$(values).value}", {"values": ({"value": 1}, {"value": 2}, {"value": 3})}) == "1, 2, 3"
 
 
+def test_expr_readme_example():
+    assert build("Kevin is @{age}>=18:an adult:a child; of {age} years old", {"age": 24}) == "Kevin is an adult of 24 years old"
+
+
 def test_expr_build_condition_true_must_keep_the_then_value_only():
     assert build("@{cond}:{then_val}:{else_val};", {"cond": True, "then_val": 1, "else_val": 2}) == "1"
 
