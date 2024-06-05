@@ -1,1 +1,1 @@
-typeguard==4.1.5
+typeguard==4.3.0
