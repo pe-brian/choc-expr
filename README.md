@@ -6,7 +6,9 @@
 
 # choc-expr
 
-A Python templating library
+![Image](logo.jpg)
+
+A mini templating library
 
 # Why ChocExpr ?
 
